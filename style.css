@@ -1,0 +1,9 @@
+.time-container{
+  display: flex;
+  border-style: solid;
+  height:200px;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
