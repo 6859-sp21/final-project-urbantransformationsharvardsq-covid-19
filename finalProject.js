@@ -49,7 +49,7 @@ var radius = 6.371;     //Earth Radius in Km
 
 // some p5 to load the local JSON as object
 function setup(){
-    dayJSONObj = loadJSON("/data/activedays.json");
+    dayJSONObj = loadJSON("data/activedays.json");
 }
 
 
