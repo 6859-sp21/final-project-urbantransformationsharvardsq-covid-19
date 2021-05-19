@@ -63,8 +63,8 @@ function setup(){
     cls = [  color(171, 0, 105), color(145, 50, 209), color(0, 59, 177), color(171, 115, 0),color(183, 202, 81), color(0, 149, 0), color(57, 67, 90) ];
 
 
-    semanticClasses = loadJSON("/data/yamnet_class_map.json");
-    dayJSONObj = loadJSON("/data/activedays.json");
+    semanticClasses = loadJSON("data/yamnet_class_map.json");
+    dayJSONObj = loadJSON("data/activedays.json");
     sketchWidth = document.getElementById("p5-sketch-Container").offsetWidth;
     sketchHeight = document.getElementById("p5-sketch-Container").offsetHeight;
 
