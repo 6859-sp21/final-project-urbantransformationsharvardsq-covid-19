@@ -8,6 +8,8 @@
     --colortimeLineBoxPM: #5AB2F5;
     --Buttons-colorBackground: #04086b;
     --Buttons-padding: 10px 54px;
+
+    --Phase-1: rgb(255,0,0);
 }
 
 body {
@@ -27,8 +29,8 @@ body {
 .title{
     color: white;
     font-family: "Roboto",monospace;
-    font-size: 30px;
-    margin-top: 10px;
+    font-size: 25px;
+    margin-top: 5px;
     font-weight: bold;
     text-align: center;
 
@@ -113,7 +115,9 @@ p{
 .st2{fill:#FFFFFF;}
 .st4{display:none;opacity:0.2;fill:#C8C8C8;}
 .st5{fill:#E82133;}
-
+.st6{fill:#C0C125;}
+.st7{fill:#3944C6;}
+.st8{fill:#480E56;}
 
 .timelineBoxAMDefault{
     opacity: 0.2;
@@ -125,7 +129,6 @@ p{
 }
 
 .timelineBoxAMSelected{
-    fill: var(--colortimeLineBoxAM) !important;
 }
 
 
@@ -140,7 +143,6 @@ p{
 }
 
 .timelineBoxPMSelected{
-    fill: var(--colortimeLineBoxPM) !important;
 }
 
 /*
@@ -152,7 +154,6 @@ p{
     width: 100%;
     height:300px;
     /*background-color:grey;*/
-    outline: 1px solid black;
     margin-top: 5px;
     margin-bottom: 5px;
     margin-top: 15px;
@@ -181,7 +182,6 @@ p{
 .photoContainer {
     flex-grow: 1;
     width: 100%;
-    outline: 1px solid black;
 }
 
 /*
@@ -192,83 +192,7 @@ p{
     width: 100%;
     height: 390px;
     margin-top: 5px;
-    outline: 1px solid black;
 }
-
-#mapContainer{
-    flex-grow: 1;
-    z-index: 0;
-    width: 100%;
-    height: 390px;
-    margin-top: 5px;
-    outline: 1px solid black;
-}
-
-
-#menu {
-    background: white;
-    /*flex-grow: 1;*/
-    z-index: 2;
-    top: 10px;
-    right: 10px;
-    border-radius: 3px;
-    width: 120px;
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    font-family: 'Open Sans', sans-serif;
-}
-
-.Toggle-active{
-  z-index: 2;
-  opacity: 20%;
-
-
-}
-
-#menu a {
-    font-size: 13px;
-    color: black;
-    display: block;
-    margin: 0;
-    padding: 0;
-    padding: 10px;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-    text-align: center;
-}
-
-#menu a:last-child {
-    border: none;
-}
-
-#menu a:hover {
-    background-color: #f8f8f8;
-    color: #404040;
-}
-
-#menu a.active {
-    background-color: #3887be;
-    color: #ffffff;
-}
-
-#menu a.active:hover {
-    background: #3074a4;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* PHASES BUTTONS STYLING */
 

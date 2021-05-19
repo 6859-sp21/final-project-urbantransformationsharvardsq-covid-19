@@ -22,8 +22,7 @@
     },
     "06032020_AM": {
       "value": false,
-      "url": ""
-    },
+      "url": "" },
     "06042020_PM": {
       "value": false,
       "url": ""
@@ -178,7 +177,7 @@
     },
     "06232020_PM": {
       "value": true,
-      "url": ""
+      "url": "https://dl.dropboxusercontent.com/s/fomflvsephjopay/Afternoon_Jun_23rd.json?raw=1"
     },
     "06232020_AM": {
       "value": true,
@@ -206,7 +205,7 @@
     },
     "06262020_AM": {
       "value": true,
-      "url": ""
+      "url": "https://dl.dropboxusercontent.com/s/o1p8pioivlvgbbw/Afternoon_Jun_27th.json?raw=1"
     },
     "06272020_PM": {
       "value": false,
@@ -230,7 +229,7 @@
     },
     "06292020_AM": {
       "value": true,
-      "url": ""
+      "url": "https://dl.dropboxusercontent.com/s/mipfs86xzq2dnl2/Afternoon_Jun_29th.json?raw=1"
     },
     "06302020_PM": {
       "value": true,
@@ -258,23 +257,23 @@
     },
     "07032020_PM": {
       "value": true,
-      "url": ""
+      "url": "https://dl.dropboxusercontent.com/s/axu80hkct921s5e/Afternoon_Jul_10th_3.json?raw=1"
     },
     "07032020_AM": {
       "value": true,
-      "url": ""
+      "url": "https://dl.dropboxusercontent.com/s/axu80hkct921s5e/Afternoon_Jul_10th_3.json?raw=1"
     },
     "07042020_PM": {
       "value": true,
-      "url": ""
+      "url": "https://dl.dropboxusercontent.com/s/axu80hkct921s5e/Afternoon_Jul_10th_3.json?raw=1"
     },
     "07042020_AM": {
       "value": true,
-      "url": ""
+      "url": "https://dl.dropboxusercontent.com/s/axu80hkct921s5e/Afternoon_Jul_10th_3.json?raw=1"
     },
     "07052020_PM": {
       "value": true,
-      "url": ""
+      "url": "https://dl.dropboxusercontent.com/s/axu80hkct921s5e/Afternoon_Jul_10th_3.json?raw=1"
     },
     "07052020_AM": {
       "value": false,
@@ -314,23 +313,23 @@
     },
     "07102020_PM": {
       "value": false,
-      "url": "https://dl.dropboxusercontent.com/s/j2kwi1tk2wl6q24/Afternoon_Jul_10th.json?raw=1"
+      "url":  "https://dl.dropboxusercontent.com/s/axu80hkct921s5e/Afternoon_Jul_10th_3.json?raw=1"
     },
     "07102020_AM": {
       "value": true,
-      "url": "https://dl.dropboxusercontent.com/s/j2kwi1tk2wl6q24/Afternoon_Jul_10th.json?raw=1"
+      "url":  "https://dl.dropboxusercontent.com/s/axu80hkct921s5e/Afternoon_Jul_10th_3.json?raw=1"
     },
     "07112020_PM": {
       "value": true,
-      "url": "https://dl.dropboxusercontent.com/s/j2kwi1tk2wl6q24/Afternoon_Jul_10th.json?raw=1"
+      "url": ""
     },
     "07112020_AM": {
       "value": false,
-      "url": "https://dl.dropboxusercontent.com/s/j2kwi1tk2wl6q24/Afternoon_Jul_10th.json?raw=1"
+      "url": ""
     },
     "07122020_PM": {
       "value": false,
-      "url": "https://dl.dropboxusercontent.com/s/j2kwi1tk2wl6q24/Afternoon_Jul_10th.json?raw=1"
+      "url": ""
     },
     "07122020_AM": {
       "value": true,
