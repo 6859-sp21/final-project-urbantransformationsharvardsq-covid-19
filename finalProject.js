@@ -1,8 +1,4 @@
-/*
- * 
- * ELINA'S PROJECT
- *
- */
+// FINAL Project 6.859 -- Elina Oikonomaki
 
 // containins all of the timeline Elements
 let timeLineSVGDocument;
@@ -10,74 +6,161 @@ let timeLineSVGDocument;
 let dayJSONObj;
 // current Walks Json;
 let currentWalksJSONObj = {};
+var sketchWidth;
+var sketchHeight;
+let geoJSON;
+var allPoints = {};
+let mappa;
 
+var objCalls = 0;
 
+//Elina's access token 
+mapboxgl.accessToken = 'pk.eyJ1IjoiZWxpbmFvaWsiLCJhIjoiY2tidWwzenhvMDVyMTJ4bzVyYWVlMGdkZSJ9.ZzKoxiO3-YaCk4CJilMPVA';
 
-//---------P5---
-
-var lineCurr = null;
-var DataArr; 
-// contains all of the LineSegments JS-Objects
-var LineSegments = [];
-var horElemC = 15;
-
-let XSCREENEXP = 504; 
-let YSCREENEXP = 370;
-let screenWidth = window.innerWidth;
-let screenHeight = window.innerHeight;
-
-//for the MAP variables
-//Walk Bouding Box:
-//Bottom right :  42.369962, -71.113062  
-//Top left :  42.374412, -71.1213000000000 px
-
-//top-left reference point
-var p0 = {
-    scrX: 0.0,        // Minimum X position on screen
-    scrY: 0.0,         // Minimum Y position on screen
-    lat: 42.374412,    // Latitude
-    lng: -71.12130000000001     // Longitude
-}
-//bottom-right reference point
-var p1 = {
-    scrX: XSCREENEXP,          // Maximum X position on screen
-    scrY: YSCREENEXP,        // Maximum Y position on screen
-    lat: 42.369962,    // Latitude
-    lng: -71.113062       // Longitude
-}
-var radius = 6.371;     //Earth Radius in Km
+mappa = new mapboxgl.Map({
+container: 'mapboxContainer', // container id
+style: 'mapbox://styles/elinaoik/ckov2hlfu7c1517mdfm2qx7zq', // style URL
+center: [-71.115, 42.372], // starting position [lng, lat]
+zoom: 15.26 // starting zoom
+});
 
 // some p5 to load the local JSON as object
 function setup(){
+    
     dayJSONObj = loadJSON("/data/activedays.json");
+
+    sketchWidth = document.getElementById("p5-sketch-Container").offsetWidth;
+    sketchHeight = document.getElementById("p5-sketch-Container").offsetHeight;
+    var canvas =createCanvas(sketchWidth, sketchHeight);
+
+
+    // Move the canvas so it’s inside our <div id="sketch-holder">.
+    canvas.parent('p5-sketch-Container');
+        //Mapbox
+ 
+
 }
 
+var c = [[0, 1], [0, 0.5, 0.5, 1]];
 
-var newurl = "https://dl.dropboxusercontent.com/s/d0xsijpf5v8g97a/08012020_PM.json?raw=1";
+function draw() {
+
+  frameRate(2);
 
 
+  background(255);
+  
+  // console.log(glob_x);
+  var all_ln_glob_x = [];
+
+  var tracks = Object.keys(allPoints).length
+
+  var cls = ['red', 'green', 'blue', 'magenta']
+
+/*
+ * 0 -> 1       map( 0, height)
+ * 0 -> 0.5     map(0.5,
+ */
 
 
+  if( tracks > 0){
+      for (let walkIdx in allPoints){
+        for (let ptIdx in allPoints[walkIdx]){
+        // console.log(allPoints[walkIdx][ptIdx].duration);
+            //
+            for (var i = 0; i < tracks; i++){
+                //stroke(int(allPoints[walkIdx][ptIdx].colorShade));
+                stroke(cls[i]);
+                line(all_ln_glob_x[i], i*height/tracks + 3, all_ln_glob_x[i], (i+1)*height/tracks) - 3 ;
+                push();
+
+                textSize(8);
+                noStroke();
+                translate(all_ln_glob_x[i] + 10 , i*height/tracks + 10);
+                rotate(radians(45));
+                fill(cls[i]);
+                if (allPoints[walkIdx][ptIdx]['geoPt']['properties']['phase']['name']){
+                    text(allPoints[walkIdx][ptIdx]['geoPt']['properties']['phase']['name'],0,0 );
+                    ellipse(-5,-5,5,5);
+                }
+
+                pop();
+
+                // the 5 is the distance we need to change
+                if(!all_ln_glob_x[i]){
+                    all_ln_glob_x[i] = 0;
+                }
+                all_ln_glob_x[i] += allPoints[walkIdx][ptIdx].duration ;
+                allPoints[walkIdx][ptIdx].globX = all_ln_glob_x[i];
+            }
+         }
+      }
+
+  }
+
+  for (let walkIdx in allPoints){
+    tracks += 1
+    for (let ptIdx in allPoints[walkIdx]){ 
+      
+      // MouseOverVLines(tracks,allPoints[walkIdx][ptIdx].globX,allPoints[walkIdx][ptIdx].globX_2);
+      MouseOverVLines(tracks,'','');
+
+  }
+    
+}}
+
+function MouseOverVLines(n,x1,x2){
+    y_values = [];
+
+    for (var i=0; i<n.length; i++){
+        div = i+1;
+        y = height/div;
+        y_values.push(y);
+    }
+
+    // console.log(y_values);
+
+      // for(var i=0; i<y_values, i++){
+
+      //   y2 += curr_y[i] + curr_y[i+1];
+
+      //   if (int(mouseX) >= x1 - 2 && int(mouseX) <= x1 +2 && int(mouseY) >= y_values[i] && int(mouseY) <= y2){
+      //   push();
+      //   stroke('red');
+      //   strokeWeight(20);
+      //   line(x1, y_values[i], x1, y2);
+      //   pop();
+      //   }
+      // }    
+  }
+  
+
+
+  
+
+    
+
+function windowResized() {
+  sketchWidth = document.getElementById("p5-sketch-Container").offsetWidth;
+  sketchHeight = document.getElementById("p5-sketch-Container").offsetHeight;
+  resizeCanvas(sketchWidth, sketchHeight);
+}
+
+// var newurl = "https://dl.dropboxusercontent.com/s/d0xsijpf5v8g97a/08012020_PM.json?raw=1";
 // -------- DOM Events
 document.addEventListener('DOMContentLoaded', function () {
-    /*
-     * Fires after the html has loaded
-     */
+    //Fires after the html has loaded    
     assignTimeLineButtonActivity();
 
+    
+
 });
-
-
-
 
 // --------- 1. DOMCONTENTLOADED DOM FUNCTIONS
 // --------- Contains all the functions that are called in the DOMContentLoaded EL.
 function assignTimeLineButtonActivity (){
 
     // we load the JSON
-     
-    
-
     // we get the SVG
     var tmlsvg = document.getElementById("timelineSVG");
 
@@ -125,12 +208,36 @@ function assignTimeLineButtonActivity (){
                 }
             });
 
-            $(this).on("click", function(){
+            //Loading JSON files on click //
+
+            $(this).on("click", function(e){
                 if (!$(this).hasClass('timelineBoxAMSelected')){
                     $(this).removeClass('timelineBoxAMActive').removeClass('timelineBoxAMDefault').addClass('timelineBoxAMSelected');
+                    // we retrieve the right json for this element
+
+                    var dayVal = dayJSONObj.days[$(this).attr('id')];
+                    // if the url is not null we set the current walk to
+                    if (dayVal.url != ""){
+                        updateCurrentWalkJSON(dayVal.url, $(this).attr('id'))
+                    }
+
+                    // this waits for the variable to be be true until then it does nothing
+                    (async() => {
+                        while(!currentWalksJSONObj.hasOwnProperty($(this).attr('id'))) // define the condition as you like
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        console.log("AM");
+                        createDurationPath(this.id);
+                        createMapPts(mappa);
+
+                    })();
                 } else {
                     $(this).removeClass('timelineBoxAMSelected');
+                    // remove the data from the walk again
+                    delete currentWalksJSONObj[$(this).attr('id')];
+                    // delete horizontal lines
+                    // $("[id*='_linearPath']", document).remove();
                 }
+              
             });
         });
 
@@ -156,12 +263,10 @@ function assignTimeLineButtonActivity (){
             });
 
 
-            $(this).on("click", function(){
+            $(this).on("click", function(e){
+                
                 if (!$(this).hasClass('timelineBoxPMSelected')){
                     $(this).removeClass('timelineBoxPMActive').removeClass('timelineBoxPMDefault').addClass('timelineBoxPMSelected');
-
-                    // aug1 
-                    // jul11
                     
                     // we retrieve the right json for this element
                     var dayVal = dayJSONObj.days[$(this).attr('id')];
@@ -174,8 +279,13 @@ function assignTimeLineButtonActivity (){
                     (async() => {
                         while(!currentWalksJSONObj.hasOwnProperty($(this).attr('id'))) // define the condition as you like
                             await new Promise(resolve => setTimeout(resolve, 1000));
-                        createDurationPath();
-                        createPath();
+                         
+                        createDurationPath(this.id);
+                        createMapPts(mappa);
+                        
+  
+                        
+                        // createPath();
                     })();
 
                 } else {
@@ -188,6 +298,7 @@ function assignTimeLineButtonActivity (){
 
                     // horElemC = 0;
                 }
+              
             });
         });
 
@@ -200,6 +311,7 @@ function assignTimeLineButtonActivity (){
                 // delete horizontal lines  
                  $("[id*='_linearPath']", document).remove();
                     horElemC = 0;
+                    allPoints = {};
 
                 //reset walks
                 currentWalksJSONObj = {};
@@ -208,48 +320,35 @@ function assignTimeLineButtonActivity (){
     });
 }
 
-var currH;
-function createDurationPath(){
-    currH = 50;
-    Object.entries(currentWalksJSONObj).forEach(([k,v]) => {
-        
-        
 
-        v.lines.forEach(function(linearPathLines){
+//
 
-
-        //-----------  creating horizontal lines -----------------------------------------------------------------//
-        createLinearL(linearPathLines.id+'_linearPath',horElemC,currH,horElemC+5,currH, str(linearPathLines.Duration).trim());
-        horElemC += 3.5;
-        console.log(horElemC);
-        console.log(linearPathLines);
-        });
-
-    currH += 50;
-    horElemC = 0;
-    });
-
-}
-
-function createPath(){
-    Object.entries(currentWalksJSONObj).forEach(([k,v]) => {
-        console.log(k);
-        console.log(v);
-        v.lines.forEach(function(MapPathLines){
-            //-----------  creating map lines -----------------------------------------------------------------//
-            svgLn = createLine(MapPathLines);
-            console.log(MapPathLines.SoundUrl);
-            var newMapPathLines = new LineSegment(MapPathLines.id, svgLn, MapPathLines.SoundUrl,MapPathLines.Speed,MapPathLines.Duration,MapPathLines.Length);
-            LineSegments.push(newMapPathLines);
+function createDurationPath(timeId){   
+    var calls = 0;
+    console.log("hello");
+      for (let currObj in currentWalksJSONObj){
+          // console.log(Object.keys(currentWalksJSONObj));
+          // console.log(currentWalksJSONObj[currObj].features);
+            tmpPt = [];
+            currentWalksJSONObj[currObj].data.features.forEach(function(point){
+              var colorShade = map(point.properties.duration, 0, 40, 0, 255);
+              var currPt = new gpsPoint(point, point.properties.duration, colorShade);
+              currPt.colorShade = colorShade;              
+              tmpPt.push(currPt);              
             });
-    });
-}
+            allPoints[timeId] = tmpPt;
+            // console.log(allPoints);           
+      }
+};
 
 
 
-
-
-
+function gpsPoint(geoPt, duration, colorShade){ 
+                 this.geoPt = geoPt;
+                 this.duration = duration;
+                 this.colorShade = colorShade;
+                 this.globX = '';
+                }    
 
 // --------- REQUEST UTILS
 
@@ -279,229 +378,7 @@ function updateCurrentWalkJSON(url, callerId) {
 }
 
 
-
 // --------- SVG UTILS
-
-//-----------  FUNCTION creating horizontal svg + events  -----------------------------------------------------------------//
-
-function createLinearL(id,x1,y1,x2,y2,duration){
-  
-  var svgHor = document.createElementNS('http://www.w3.org/2000/svg','line');
-
-  
-  svgHor.setAttribute("id", id);
-  svgHor.setAttribute("x1", x1);
-  svgHor.setAttribute("y1", y1);
-  svgHor.setAttribute("x2", x2);
-  svgHor.setAttribute("y2", y2);
-
-  svgHor.setAttribute("stroke", "white");
-  
-
-  svgHor.setAttribute("stroke-width", duration);
-
-
-  var svgC = document.getElementById("pathLinearSVGContainer");
-  svgC.appendChild(svgHor);
-  
-  
-  //----------Adding Events ------------------------------------------//
-  
-  svgHor.addEventListener("mouseenter", function( event ) {
-  // highlight the mouseenter target
-  event.target.style.stroke = "red";
-  
-  //lineCurrTextX = event.target.getAttribute("x1");
-  //lineCurrTextY = event.target.getAttribute("y1");
-   lineCurr = LineSegments[event.target.id];
-   lineCurr.svgLn.style.stroke = "red";
-  }, false);
-  
- //---------------------------------------------------------------------------------------// 
-  // add the panning here ---
-  svgHor.addEventListener("pointermove", function( event ) {
-  // highlight the mouseenter target
-  event.target.style.stroke = "red";
- 
-     
-  lineCurrTextX = event.target.getAttribute("x1");
-  lineCurrTextY = event.target.getAttribute("y1");
-  
-  console.log(event.target.id);
-  
-  lineCurr = LineSegments[event.target.id];
-  lineCurr.svgLn.style.stroke = "red";
-  
-  
-  }, false);
-//-------------------------------------------------------  
-  svgHor.addEventListener("click", function( event ) {
-  // highlight the mouseenter target
-  
-    var song = LineSegments[svgHor.id].sound;
-    console.log(song);
-    if (song.isPlaying()) {
-    // .isPlaying() returns a boolean
-      song.pause(); // .play() will resume from .pause() position
-    } else {
-      song.play();
-    }
-  }, false);
-//----------------------------------------------------------------------------//
-  svgHor.addEventListener("mouseleave", function( event ) {
-  // highlight the mouseenter target
-  event.target.style.stroke = "white";
-  //event.target.style["stroke-width"] = "3";
-  lineCurr = LineSegments[event.target.id];
-  lineCurr.svgLn.style.stroke = "white";
-  
-  //lineCurrTextX = null;
-  lineCurr = null;
-
-  }, false);
-}
-
-//----------------------------------------------------------------//
-//-----------  FUNCTION creating map svg + events  -----------------------------------------------------------------//
-
-function createLine(lineS){
-  // this function creates a line and adds eventlisteners
-  
-  var EndPt = latlngToScreenXY(lineS.EndPt.lat, lineS.EndPt.lon);
-  var StartPt = latlngToScreenXY(lineS.StartPt.lat, lineS.StartPt.lon);
-
-  var svgLn = document.createElementNS('http://www.w3.org/2000/svg','line');
-  
-  svgLn.setAttribute("id", lineS.id);
-  svgLn.setAttribute("x1", StartPt.x);
-  svgLn.setAttribute("y1", StartPt.y);
-  svgLn.setAttribute("x2", EndPt.x);
-  svgLn.setAttribute("y2", EndPt.y);
-
-  svgLn.setAttribute("stroke", "white");
-  svgLn.setAttribute("stroke-width", "3");
-
-  var svgC = document.getElementById("mapSVGContainer");
-  svgC.appendChild(svgLn);
-  
-  //----------Adding Events ------------------------------------------//
-  
-  svgLn.addEventListener("mouseenter", function( event ) {
-  // highlight the mouseenter target
-  event.target.style.stroke = "red";
-  event.target.style["stroke-width"] = "10";
-  
-  //lineCurrTextX = event.target.getAttribute("x1");
-  //lineCurrTextY = event.target.getAttribute("y1");
-  lineCurr = LineSegments[event.target.id];
-  lineCurr.svgHor.style.stroke = "red";
-  }, false);
-  
-  // add the panning here ---
-  svgLn.addEventListener("pointermove", function( event ) {
-  // highlight the mouseenter target
-  event.target.style.stroke = "red";
-  event.target.style["stroke-width"] = "10";
-     
-  //lineCurrTextX = event.target.getAttribute("x1");
-  //lineCurrTextY = event.target.getAttribute("y1");
-  lineCurr = LineSegments[event.target.id];
-  lineCurr.svgHor.style.stroke = "red";
-  }, false);
-  
-  svgLn.addEventListener("click", function( event ) {
-  // highlight the mouseenter target
-  
-    var song = LineSegments[svgLn.id].sound;
-    if (song.isPlaying()) {
-    // .isPlaying() returns a boolean
-      song.pause(); // .play() will resume from .pause() position
-    } else {
-      song.play();
-    }
-  }, false);
-
-  svgLn.addEventListener("mouseleave", function( event ) {
-  // highlight the mouseenter target
-  event.target.style.stroke = "white";
-  event.target.style["stroke-width"] = "3";
-  
-  lineCurr = LineSegments[event.target.id];
-  lineCurr.svgHor.style.stroke = "white";
-
-  
-  //lineCurrTextX = null;
-  lineCurr = null;
-
-  }, false);
-  
-  return svgLn;
-}
-
-
-//p5 draw function
-function draw() {
-    if(lineCurr != null){
-          
-          var newX = int(lineCurr.svgLn.getAttribute("x1"));
-          var newY = int(lineCurr.svgLn.getAttribute("y1"));
-          var colr = str(lineCurr.svgLn.style.stroke); 
-          fill(colr);
-          textSize(40);
-          text(lineCurr.name, newX, newY);
-    }else{
-           fill('white');
-    }
-    
-}
-
-//Creating a Javascript Object//
-
-function LineSegment(id,svgLn,SoundUrl,StartPt,EndPt,Speed,Duration,Length){
-  // this is a JS object
-  // add more things
-  this.id = id;
-  this.svgLn = svgLn;
-  this.Speed = Speed;
-  this.Duration = Duration;
-  this.Length = Length;
-  this.sound = loadSound(SoundUrl);
-  this.Startime = StartPt.time;
-  this.Endtime = EndPt.time;
-  
-}
-
-function createSvgLine(x1, y1, x2, y2, containerId, className, id){
-    /* 
-     * A static svg Line
-     */
-    var svgLn = document.createElementNS('http://www.w3.org/2000/svg','line');
-    svgLn.setAttribute("id", id);
-    svgLn.classList.add(className);
-    svgLn.setAttribute("x1", x1);
-    svgLn.setAttribute("y1", y1);
-    svgLn.setAttribute("x2", x2);
-    svgLn.setAttribute("y2", y2);
-
-    // we get the SVG container from index.thml
-    var svgC = document.getElementById(containerId);
-
-    // we append our line to that container as a childElement
-    svgC.appendChild(svgLn);
-}
-
-function createSvgRect(x, y, w, h, containerId, className, id){
-    /* 
-     * A static svg Line
-     */
-    var svgRect = document.createElementNS('http://www.w3.org/2000/svg','rect');
-    svgRect.setAttribute("id", id);
-    svgRect.classList.add(className);
-    svgRect.setAttribute("x", x1);
-    svgRect.setAttribute("y", y1);
-    svgRect.setAttribute("height", h);
-    svgRect.setAttribute("width", w);
-}
 
 function dayBoxAddEventListener(svgElem){
     /* 
@@ -530,82 +407,192 @@ function dayBoxAddEventListener(svgElem){
     }, false);
 }
 
-// --------- MAP UTILS
-
-//-----------------------------------------------------------------------------------------------//
 
 
-//## Now I can calculate the global X and Y for each reference point ##\\
-
-// This function converts lat and lng coordinates to GLOBAL X and Y positions
-function latlngToGlobalXY(lat, lng){
-    //Calculates x based on cos of average of the latitudes
-    let x = radius*lng*Math.cos((p0.lat + p1.lat)/2);
-    //Calculates y based on latitude
-    let y = radius*lat;
-    return {x: x, y: y}
-}
-// Calculate global X and Y for top-left reference point
-p0.pos = latlngToGlobalXY(p0.lat, p0.lng);
-// Calculate global X and Y for bottom-right reference point
-p1.pos = latlngToGlobalXY(p1.lat, p1.lng);
-
-/*
-* This gives me the X and Y in relation to map for the 2 reference points.
-* Now we have the global AND screen areas and then we can relate both for the projection point.
-*/
-
-// This function converts lat and lng coordinates to SCREEN X and Y positions
-function latlngToScreenXY(lat, lng){
-    //Calculate global X and Y for projection point
-    let pos = latlngToGlobalXY(lat, lng);
-    //Calculate the percentage of Global X position in relation to total global width
-    pos.perX = ((pos.x-p0.pos.x)/(p1.pos.x - p0.pos.x));
-    //Calculate the percentage of Global Y position in relation to total global height
-    pos.perY = ((pos.y-p0.pos.y)/(p1.pos.y - p0.pos.y));
-
-    //Returns the screen position based on reference points
-    return {
-        x: p0.scrX + (p1.scrX - p0.scrX)*pos.perX,
-        y: p0.scrY + (p1.scrY - p0.scrY)*pos.perY
-    }
-}
-
-//# The usage is like this #\\
-
-//var pos = latlngToScreenXY(-22.815319, -47.071718);
-//$point = $("#point-to-project");
-//$point.css("left", pos.x+"em");
-//$point.css("top", pos.y+"em");
 
 
-//--------Adding functionality to the buttons for switching between Graphs ---------------------//
+function createMapPts(){   
+    var calls = 0;
+    console.log("hello MAP");
 
-// function turnOnGDP(number){
-//   console.log("turnOnGDP");
-//   var svgStyle1 = document.getElementById("lineChart"+ number +"GDP").getAttribute("display");
-//   var svgStyle2 = document.getElementById("lineChart"+ number +"YEAR").getAttribute("display");
+    mappa = new mapboxgl.Map({
+    container: 'mapboxContainer', // container id
+    style: 'mapbox://styles/elinaoik/ckov2hlfu7c1517mdfm2qx7zq', // style URL
+    center: [-71.115, 42.372], // starting position [lng, lat]
+    zoom: 15.26 // starting zoom
+    });
 
-//   var elemnt = document.getElementById("lineChart"+ number +"GDP");
-//   console.log(elemnt);
-//   console.log(svgStyle2);
 
-//   if (svgStyle1 == "none"){
-//       document.getElementById("lineChart"+ number +"GDP").setAttribute("display", "block");
-//       document.getElementById("lineChart"+ number +"YEAR").setAttribute("display", "none");
-//   }
+
+    var song;
+
+    var currMap;
+
+//     const list = ['a', 'b', 'c'];
+// for (let x of enumerate(list)) {
+   
 // }
 
-// function turnOnYEAR(number){
-//   console.log("turnOnYEAR");
-//   var svgStyle1 = document.getElementById("lineChart"+ number +"GDP").getAttribute("display");
-//   var svgStyle2 = document.getElementById("lineChart"+ number +"YEAR").getAttribute("display");
+      var count=0;
+      for (let currObj in currentWalksJSONObj){
+          console.log(count);
+          currMap = currentWalksJSONObj[currObj];
+          
+          console.log('currMap'+[count]);
 
-//   //console.log(svgStyle1);
-//   //console.log(svgStyle2);
 
-//   if (svgStyle2 == "none"){
-//       document.getElementById("lineChart"+ number +"GDP").setAttribute("display", "none");
-//       document.getElementById("lineChart"+ number +"YEAR").setAttribute("display", "block");
-//   }
-// }
+
+          mappa.on('load', function(){
+          mappa.addSource('currMap'+[count], currMap);
+          mappa.addLayer({
+              'id': 'currMap'+[count],
+              'type': 'circle',
+              'source': 'currMap'+[count],
+              // 'source-layer':'currMap'+{count},
+              'layout':{'visibility':'visible'},
+              'paint': {
+                        'circle-color': 'white',
+                        'circle-opacity':0.5,
+                        'circle-radius':['get','duration']                       
+              }
+          });
+
+          // Create a popup, but don't add it to the map yet.
+          var popup = new mapboxgl.Popup({
+              className: "currWalk-popup",
+              closeButton: true,
+              closeOnClick: true,
+          }).setMaxWidth(600);
+          
+          mappa.on('mouseenter', 'currMap'+[count], function (e) {
+              // Change the cursor style as a UI indicator.
+              mappa.getCanvas().style.cursor = 'pointer';
+
+              //console.log(currMap);
+
+              var coordinates = e.features[0].geometry.coordinates.slice();
+              //console.log("coordinates");
+              var time = e.features[0].properties.time;
+              //console.log(time);
+              var duration = e.features[0].properties.duration;
+              
+              // '<audio controls><source src="'+sound'+" type="audio/mp3"></audio>'
+
+              var d_time = "<h2 style='color:red;'>" + time + "</h2>";
+              var d_duration = "<div class=duration>duration: " + duration + "</div>";
+              // var d_description = "<div>description: " + description + "</div>";
+              var d_coordinates = "<div>coordinates: " + coordinates + "</div>";
+
+              // Ensure that if the map is zoomed out such that multiple
+              // copies of the feature are visible, the popup appears
+              // over the copy being pointed to.
+              while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                  coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+              }
+
+              // Populate the popup and set its coordinates
+              // based on the feature found.
+              popup.setLngLat(coordinates).setHTML(d_time+d_duration).addTo(mappa);                                                                                                                                       
+          });
+
+          mappa.on('click', function (e) {
+              // Change the cursor style as a UI indicator.
+              mappa.getCanvas().style.cursor = 'pointer';
+
+              
+
+              // var coordinates = e.features[0].geometry.coordinates.slice();
+              // console.log("coordinates");
+              // var time = e.features[0].properties.time;
+              var SoundUl = e.properties['sound'].url;
+              console.log(SoundUl);
+              console.log(currMap);
+              // var duration = e.features[0].properties.duration;
+
+            // console.log(currMap);
+
+            //   var s = e.features[0].properties;
+            //   console.log(s);
+            // for (var i=0; i<s.length; i++){
+            //   console.log(s[0]);
+            // }
+                      
+            // var sound = e.features[0].properties.sound.url;
+            // var song = loadSound(sound);
+            // song.play();
+          });
+
+          mappa.on('mouseleave', 'currMap'+[count], function (e) {
+              mappa.getCanvas().style.cursor = '';
+              popup.remove();
+              // var sound = e.features[0].properties.sound.url;
+              // var song = loadSound(sound);
+              // song.pause();
+          });        
+    });
+
+    //Adding buttons and toggle for  layers
+        // After the last frame rendered before the map enters an "idle" state.
+    mappa.on('idle', function () {
+        // If these two layers have been added to the style,
+        // add the toggle buttons.
+        if (mappa.getLayer('currMap'+[count])) {
+            // Enumerate ids of the layers.
+            var toggleableLayerIds = ['currMap'+[count]];
+            // Set up the corresponding toggle button for each layer.
+            for (var i = 0; i < toggleableLayerIds.length; i++) {
+                var id = toggleableLayerIds[i];
+                if (!document.getElementById(id)) {
+                    // Create a link.
+                    var link = document.createElement('a');
+                    link.id = id;
+                    link.href = '#';
+                    link.textContent = id;
+                    link.className = 'Toggle-active';
+                    // Show or hide layer when the toggle is clicked.
+                    link.onclick = function (e) {
+                        var clickedLayer = this.textContent;
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        var visibility = mappa.getLayoutProperty(
+                            clickedLayer,
+                            'visibility'
+                        );
+
+                        // Toggle layer visibility by changing the layout object's visibility property.
+                        if (visibility === 'visible') {
+                            mappa.setLayoutProperty(
+                                clickedLayer,
+                                'visibility',
+                                'none'
+                            );
+                            this.className = '';
+                        } else {
+                            this.className = 'Toggle-active';
+                            mappa.setLayoutProperty(
+                                clickedLayer,
+                                'visibility',
+                                'visible'
+                            );
+                        }
+                    };
+
+                    var layers = document.getElementById('menu');
+                    layers.appendChild(link);
+                }
+            }
+        }});
+
+
+    count ++;      
+  }
+
+  //currMap = currentWalksJSONObj[currObj];
+  console.log("Before---");
+  // console.log(currMap);  
+};
+
+
+// p1.bindPopup('<h3>transformation Phase 1</h3><p>June 7th-8th</p><img src="../img/7th/IMG_0955.jpeg" style="width: 50%"> <img src="../img/8th/Frame-25-06-2020-09-26-55.jpeg" style="width: 50%"> <video width="320" height="240" controls><source src="movie.mp4" type="video/mp4"> <source src="movie.ogg" type="video/ogg">Your browser does not support the video tag.</video> <audio controls><source src="horse.ogg" type="audio/ogg"> <source src="horse.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio> <audio controls><source src="horse.ogg" type="audio/ogg"><source src="horse.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>',{maxWidth:500,maxZoom:10});
+

@@ -12,19 +12,16 @@
 
 body {
     background-color:var(--colorBackground);
+    padding: 20px;
 }
 
 
 .viewContainer {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    height: 100%;
 
-    width: calc(100% - 40px);
-    height: calc(100% - 80px);
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 .title{
@@ -63,18 +60,33 @@ p{
 
 }
 
+.marker {
+  background-image: url('mapbox-icon.png');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.mapboxgl-popup {
+  max-width: 200px;
+}
+
+.mapboxgl-popup-content {
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+}
+
 /*
  * --------------- PHASE CONTAINER
  */
 .phaseContainer {
     flex-grow: 1;
     width: 100%;
-    height: 20px;
+    height: 10px;
     /*background-color:grey;*/
-    margin-left: 10px;
-    margin-right: 10px;
     margin-top: 5px;
-    margin-bottom: 5px;
 }
 #phaseSVGContainer > object {
     flex-grow: 2;
@@ -86,10 +98,7 @@ p{
  */
 .timeContainer {
     flex-grow: 0.1;
-    height:100%
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 5px;
+    height:100; 
     margin-bottom: 0px;
     background-color:var(--colorBackground);
 }
@@ -141,22 +150,27 @@ p{
     flex-direction: column;
     flex-grow: 1;
     width: 100%;
-    height:100px;
+    height:300px;
     /*background-color:grey;*/
     outline: 1px solid black;
-    margin-left: 10px;
-    margin-right: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
-    border: 1px solid white;
     margin-top: 15px;
     margin-bottom: 15px;
 }
 #pathLinearSVGContainer{
     flex-grow: 1;
     width: 100%;
-    margin: 3px;
     
+    
+}
+
+#p5-sketch-Container{
+  flex-direction: column;
+  width: 100%;
+  height:100%;
+
+
 }
 
 
@@ -167,32 +181,94 @@ p{
 .photoContainer {
     flex-grow: 1;
     width: 100%;
-    border: 2px solid white;
     outline: 1px solid black;
 }
 
 /*
  * --------------- MAP CONTAINER
  */
-.mapContainer {
+#mapboxContainer {
     flex-grow: 1;
     width: 100%;
     height: 390px;
-    margin-left: 10px;
-    margin-right: 10px;
     margin-top: 5px;
-    border: 1px solid white;
     outline: 1px solid black;
 }
 
-#mapSVGContainer{
+#mapContainer{
     flex-grow: 1;
+    z-index: 0;
     width: 100%;
-    height: 370px;
-    margin: 6px;
-    align-content: center;
+    height: 390px;
+    margin-top: 5px;
+    outline: 1px solid black;
+}
+
+
+#menu {
+    background: white;
+    /*flex-grow: 1;*/
+    z-index: 2;
+    top: 10px;
+    right: 10px;
+    border-radius: 3px;
+    width: 120px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    font-family: 'Open Sans', sans-serif;
+}
+
+.Toggle-active{
+  z-index: 2;
+  opacity: 20%;
+
 
 }
+
+#menu a {
+    font-size: 13px;
+    color: black;
+    display: block;
+    margin: 0;
+    padding: 0;
+    padding: 10px;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+#menu a:last-child {
+    border: none;
+}
+
+#menu a:hover {
+    background-color: #f8f8f8;
+    color: #404040;
+}
+
+#menu a.active {
+    background-color: #3887be;
+    color: #ffffff;
+}
+
+#menu a.active:hover {
+    background: #3074a4;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* PHASES BUTTONS STYLING */
 
