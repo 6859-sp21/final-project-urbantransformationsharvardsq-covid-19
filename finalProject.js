@@ -45,6 +45,7 @@ var c = [[0, 1], [0, 0.5, 0.5, 1]];
 
 function draw() {
 
+<<<<<<< HEAD
   frameRate(2);
 
 
@@ -56,6 +57,12 @@ function draw() {
   var tracks = Object.keys(allPoints).length
 
   var cls = ['red', 'green', 'blue', 'magenta']
+=======
+// some p5 to load the local JSON as object
+function setup(){
+    dayJSONObj = loadJSON("data/activedays.json");
+}
+>>>>>>> f01ea481ed7c00763679c74f6c96b1be9ae372ee
 
 /*
  * 0 -> 1       map( 0, height)
