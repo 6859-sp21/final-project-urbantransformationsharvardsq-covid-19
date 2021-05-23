@@ -16,4 +16,4 @@ Videos:
 5min video (FINAL VIDEO for final version) : https://drive.google.com/file/d/1LvO7NX8Ds1kjrzcPmWwFVhKaC7KfuchY/view?usp=sharing
 1min video : https://drive.google.com/file/d/18u-ExhxPimXBfJpiQ4b7swXzC-p6eEYo/view?usp=sharing
 
-[PAPER](https://github.com/6859-sp21/final-project-urbantransformationsharvardsq-covid-19/blob/main/FINAL/Final_project.pdf)
+Paper: [PAPER](https://github.com/6859-sp21/final-project-urbantransformationsharvardsq-covid-19/blob/main/FINAL/Final_project.pdf)
