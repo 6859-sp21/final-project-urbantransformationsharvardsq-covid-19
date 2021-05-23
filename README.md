@@ -9,7 +9,7 @@ The paper studies how the different phases of the pandemic along with the restri
 Keywords: Urban Transformations, walking experience, soundscape, COVID-19.
 
 Image:
-![Interface-screenshot](https://drive.google.com/file/d/1S1wJ265-T0VcHI_iheHCSEEdtk3wDkok/view?usp=sharing)
+![Interface-screenshot](https://drive.google.com/uc?export=view&id=1S1wJ265-T0VcHI_iheHCSEEdtk3wDkok)
 
 Videos:
 
